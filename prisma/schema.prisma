@@ -1,0 +1,128 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  name            String?
+  password        String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  emailVerified   DateTime?
+  preferences     Json?     // Trading preferences and settings
+  signals         Signal[]
+  watchlists      Watchlist[]
+  tradingHistory  TradingHistory[]
+}
+
+model Signal {
+  id            String    @id @default(cuid())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  symbol        String    // Trading pair (e.g., "BTC/USDT")
+  timeframe     String    // Chart timeframe (e.g., "1h", "4h", "1d")
+  type          SignalType
+  direction     Direction
+  entryPrice    Float
+  targetPrice   Float[]   // Multiple take profit levels
+  stopLoss      Float
+  confidence    Float     // Signal confidence score (0-100)
+  indicators    Json      // Technical indicator values
+  status        SignalStatus @default(ACTIVE)
+  outcome       SignalOutcome?
+  user          User      @relation(fields: [userId], references: [id])
+  userId        String
+  notes         String?
+  
+  // Performance tracking
+  actualOutcome     Float?    // Actual profit/loss percentage
+  exitPrice         Float?
+  exitTime          DateTime?
+}
+
+model Watchlist {
+  id          String    @id @default(cuid())
+  name        String
+  symbols     String[]  // Array of trading pairs
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model TradingHistory {
+  id          String    @id @default(cuid())
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  symbol      String
+  entryPrice  Float
+  exitPrice   Float
+  direction   Direction
+  profit      Float     // Percentage
+  volume      Float
+  entryTime   DateTime
+  exitTime    DateTime
+  notes       String?
+  createdAt   DateTime  @default(now())
+}
+
+model MarketData {
+  id          String    @id @default(cuid())
+  symbol      String
+  timeframe   String
+  timestamp   DateTime
+  open        Float
+  high        Float
+  low         Float
+  close       Float
+  volume      Float
+  indicators  Json?     // Cached indicator values
+
+  @@unique([symbol, timeframe, timestamp])
+  @@index([symbol, timeframe])
+}
+
+enum SignalType {
+  // Automated Strategies
+  EMA_CROSSOVER      // EMA 20/50 crossover strategy
+  RSI_DIVERGENCE     // RSI divergence strategy
+  SUPPORT_RESISTANCE // Support/Resistance breakout
+  VOLUME_BREAKOUT    // Volume-based breakout
+  TREND_FOLLOWING    // Trend following with multiple indicators
+  
+  // Manual Strategies
+  PRICE_ACTION       // Manual price action analysis
+  CHART_PATTERN      // Manual chart pattern identification
+  FUNDAMENTAL        // Fundamental analysis based
+  NEWS_EVENT         // News/Event-based trading
+  CUSTOM            // Custom analysis/strategy
+}
+
+enum Direction {
+  LONG
+  SHORT
+}
+
+enum SignalStatus {
+  ACTIVE
+  TRIGGERED
+  COMPLETED
+  CANCELLED
+  EXPIRED
+}
+
+enum SignalOutcome {
+  TARGET_HIT
+  STOP_LOSS
+  BREAK_EVEN
+  PARTIAL_PROFIT
+  EXPIRED
+}
