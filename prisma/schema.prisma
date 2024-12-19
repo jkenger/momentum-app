@@ -20,6 +20,7 @@ model User {
   preferences     Json?     // Trading preferences and settings
   signals         Signal[]
   watchlists      Watchlist[]
+  scouts          Scout[]
   tradingHistory  TradingHistory[]
 }
 
@@ -88,6 +89,39 @@ model MarketData {
 
   @@unique([symbol, timeframe, timestamp])
   @@index([symbol, timeframe])
+}
+
+enum ScoutTier {
+  BASIC     // Basic strategies (single indicator)
+  PRO       // Advanced strategies (multiple indicators)
+  ELITE     // Complex strategies (AI-enhanced)
+}
+
+enum ScoutStatus {
+  ACTIVE
+  INACTIVE
+  ERROR
+}
+
+model Scout {
+  id          String      @id @default(cuid())
+  name        String
+  description String?
+  tier        ScoutTier   @default(BASIC)
+  strategy    SignalType
+  status      ScoutStatus @default(INACTIVE)
+  config      Json        // Strategy-specific configuration
+  symbols     String[]    // Trading pairs to monitor
+  interval    String      // Timeframe (e.g., "15s", "1m", "5m")
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  user        User        @relation(fields: [userId], references: [id])
+  userId      String
+  
+  // Scout performance metrics
+  totalSignals    Int     @default(0)
+  successRate     Float?  // Percentage of successful signals
+  lastSignalAt    DateTime?
 }
 
 enum SignalType {

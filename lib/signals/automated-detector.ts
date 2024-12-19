@@ -11,7 +11,7 @@ interface OHLCV {
   volume: number;
 }
 
-class SignalDetector {
+export class SignalDetector {
   private calculateEMA(prices: number[], period: number): number[] {
     const multiplier = 2 / (period + 1);
     const ema = [prices[0]];
@@ -113,7 +113,6 @@ class SignalDetector {
         case "VOLUME_BREAKOUT":
           signalData = this.detectVolumeBreakout(data);
           break;
-        // Add other strategies here
         default:
           return null;
       }
@@ -131,7 +130,6 @@ class SignalDetector {
           ? [currentPrice * 1.02, currentPrice * 1.04, currentPrice * 1.06]
           : [currentPrice * 0.98, currentPrice * 0.96, currentPrice * 0.94];
 
-      // Create signal
       const signal = await prisma.signal.create({
         data: {
           symbol,
@@ -141,7 +139,7 @@ class SignalDetector {
           entryPrice: currentPrice,
           targetPrice: targets,
           stopLoss,
-          confidence: 75, // You can calculate this based on strategy
+          confidence: 75,
           status: "ACTIVE",
           userId,
           indicators: signalData.indicators,
@@ -156,5 +154,3 @@ class SignalDetector {
     }
   }
 }
-
-export const signalDetector = new SignalDetector();

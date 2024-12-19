@@ -32,13 +32,18 @@ const navItems = [
     icon: BarChart3,
   },
   {
+    title: "Scouts",
+    href: "/dashboard/scouts",
+    icon: SignalIcon,
+  },
+  {
     title: "Settings",
     href: "/dashboard/settings",
     icon: Settings,
   },
   {
     title: "Learn",
-    href: "/learn",
+    href: "/dashboard/learn",
     icon: Book,
   },
   {
