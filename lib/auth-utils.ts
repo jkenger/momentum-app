@@ -15,6 +15,6 @@ type AuthContext =
   | { req: NextApiRequest; res: NextApiResponse }
   | undefined;
 
-export async function auth(context?: AuthContext) {
+export async function auth() {
   return getServerSession(authOptions);
 }

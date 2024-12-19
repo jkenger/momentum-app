@@ -52,7 +52,7 @@ export async function POST(req: Request) {
 }
 
 // Mock market data function (replace with real API)
-async function fetchMarketData(symbol: string) {
+async function fetchMarketData() {
   const now = Date.now();
   return Array.from({ length: 100 }, (_, i) => ({
     timestamp: now - (99 - i) * 4 * 60 * 60 * 1000,

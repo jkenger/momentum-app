@@ -72,7 +72,7 @@ export function TestStrategies() {
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to test strategy",
+        description: "Failed to test strategy, " + error,
         variant: "destructive",
       });
     } finally {
@@ -85,7 +85,7 @@ export function TestStrategies() {
 
     setLoading(true);
     try {
-      const response = await fetch("/api/signals/manual", {
+      await fetch("/api/signals/manual", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -100,8 +100,6 @@ export function TestStrategies() {
         }),
       });
 
-      const data = await response.json();
-
       toast({
         title: "Manual Signal Created",
         description: `Created ${selectedManual} signal`,
@@ -109,7 +107,7 @@ export function TestStrategies() {
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to create manual signal",
+        description: "Failed to create manual signal, " + error,
         variant: "destructive",
       });
     } finally {

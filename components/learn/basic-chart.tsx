@@ -85,7 +85,7 @@ export function BasicChart({ type }: BasicChartProps) {
 
 function generateChartData(type: string) {
   const basePrice = 100;
-  const data = [];
+  let data;
   const points = 50;
 
   for (let i = 0; i < points; i++) {
@@ -131,7 +131,7 @@ function generateChartData(type: string) {
 
 function addTradeMarkers(series: any, type: string) {
   // Add entry and exit markers based on type
-  const markers = [];
+  let markers;
 
   if (type === "market-order") {
     markers.push({

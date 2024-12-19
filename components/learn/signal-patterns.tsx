@@ -93,7 +93,7 @@ export function SignalPattern({ type, className }: SignalPatternProps) {
 
 // Helper functions
 function generatePatternData(type: "bullish" | "bearish") {
-  const data = [];
+  let data;
   const points = 50;
   const baseValue = 100;
 
@@ -119,7 +119,7 @@ function generatePatternData(type: "bullish" | "bearish") {
 }
 
 function generateEMAData(
-  data: any[],
+  data,
   type: "bullish" | "bearish",
   emaType: "fast" | "slow"
 ) {

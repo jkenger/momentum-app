@@ -4,7 +4,7 @@ import { PageHeader } from "@/components/dashboard/page-header";
 import { SignalsContainer } from "@/components/signals/signals-container";
 import { TestSignalButton } from "@/components/signals/test-signal-button";
 import { StatsOverview } from "@/components/dashboard/stats-overview";
-import { PerformanceChart } from "@/components/dashboard/performance-chart";
+// import { PerformanceChart } from "@/components/dashboard/performance-chart";
 import { prisma } from "@/lib/db";
 import { DetectSignalButton } from "@/components/signals/detect-signal-button";
 

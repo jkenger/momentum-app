@@ -55,7 +55,7 @@ export default function BasicsPage() {
                 <ul className="list-disc pl-6 text-sm text-muted-foreground">
                   <li>Buy low, sell high</li>
                   <li>Profit from price increases</li>
-                  <li>Limited risk (can't lose more than investment)</li>
+                  <li>Limited risk (can&apos;t lose more than investment)</li>
                 </ul>
               </CardContent>
             </Card>
@@ -176,7 +176,7 @@ export default function BasicsPage() {
                 <li>Always use stop losses</li>
                 <li>Never risk more than you can afford to lose</li>
                 <li>Consider risk:reward ratio (minimum 1:2)</li>
-                <li>Don't overtrade or chase losses</li>
+                <li>Don&apos;t overtrade or chase losses</li>
                 <li>Keep a trading journal</li>
               </ul>
             </CardContent>

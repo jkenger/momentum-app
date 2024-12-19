@@ -3,7 +3,7 @@ import { NextRequest } from "next/server";
 
 const clients = new Set<ReadableStreamController<any>>();
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   const stream = new ReadableStream({
     start(controller) {
       clients.add(controller);
