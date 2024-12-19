@@ -1,7 +1,7 @@
 // app/api/signals/detect/route.ts
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth-utils";
-import { signalDetector } from "@/lib/signals/automated-detector";
+import { SignalDetector } from "@/lib/signals/automated-detector";
 import { broadcastSignal } from "../stream/route";
 import { logger } from "@/lib/utils";
 
@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     logger.log(`Analyzing ${symbol} with ${strategy} strategy`, "info");
 
     const marketData = await fetchMarketData(symbol);
-    const signal = await signalDetector.analyzeMarket(
+    const signal = await SignalDetector.analyzeMarket(
       marketData,
       symbol,
       session.user.id,
